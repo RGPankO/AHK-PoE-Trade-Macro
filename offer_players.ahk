@@ -99,6 +99,9 @@ Loop % players_array.MaxIndex()
         
     Send, {Enter}
 }
+
+BreakLoop = 1
+
 return
 
 
