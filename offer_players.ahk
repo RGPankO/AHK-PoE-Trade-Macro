@@ -3,34 +3,63 @@
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
 
-PlayersList := "MisterOne MisterTwo MFStoner"
-ItemName := ""
-OfferPrice := ""
+PlayersList := ""
+TradeMsg := ""
 SkipPlayers := "inward brains polo SocietyOfKobes"
 
-!g::
-PlayersList := ""
-InputBox, PlayersList , Please provide players list, Please provide players list, , 500, 500
-return
 
-!h::
-ItemName := ""
-InputBox, ItemName , Please provide Item Name, Please provide Item name, , 500, 500
-return
-
-!j::
-OfferPrice := ""
-InputBox, OfferPrice , Please provide Offer Price, Please provide Offer Price, , 500, 500
-return
-
-;!a::
-;Send, %PlayersList%
-;return
-
-; Key to break the loop
-!a::
+!g::  ;  Key to setup trade spam & Key to break the loop
+If BreakLoop = 0
+{
 BreakLoop = 1
+MsgBox Stopped!
+}
+else
+{
+Gui, Add, Text, x12 y20 w80 h30, PlayersList
+Gui, Add, Text, x12 y100 w80 h30, Trade Message
+Gui, Add, Edit, x122 y20 w400 h60 vPlayersList,
+Gui, Add, Edit, x122 y100 w400 h60 vTradeMsg, 
+Gui, Add, Button, x12 y170 w40 h30 , OK
+Gui, Add, Button, x52 y170 w40 h30 , Cancel
+Gui, Show, x600 y400 h200 w600, GuiSize
+}
+Return
+
+
+
+ButtonOK: 
+Gui, Submit ; Save all the information in the GUI (The variables)
+Gui, Destroy ; Destroy the GUI to get it out of the way
+MsgBox Current playerlist:`n  %PlayersList% `n  `nTrade message and offer `n  %TradeMsg% `n 
+Return
+
+
+ButtonCancel: 
+Gui, Destroy
+PlayersList := ""
+Return
+
+GuiClose:
+Gui, Destroy
+PlayersList := ""
+Return
+
+
+
+; Key to pasue script
+!a::
+Pause, Toggle, 1
+If (A_IsPaused) 
+{
+TrayTip , Trade spam, Script is paused!, 4
+}
+else 
+{
+TrayTip , Trade spam, Script is unpaused!, 4
+}
 return
+
 
 
 !k::
@@ -58,19 +87,20 @@ Loop % players_array.MaxIndex()
         continue 
 
     Send, {Enter}
+	Send ^{a}
 
     if A_Index >= 1
-        Sleep, 750
+        Sleep, ran(750, 800)
 
     
     
 
-    Send, @%PlayerName% %ItemName% %OfferPrice% 
+    Send, @%PlayerName% %TradeMsg%
 
     if (BreakLoop = 1)
         break 
 
-    Sleep, 750
+    Sleep, ran(750, 800)
 
     if (BreakLoop = 1)
         break 
@@ -78,3 +108,12 @@ Loop % players_array.MaxIndex()
     Send, {Enter}
 }
 return
+
+
+
+
+ran(min, max)
+ {
+   random, ran, min, max
+   return ran
+ }
