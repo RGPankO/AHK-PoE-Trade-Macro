@@ -6,7 +6,7 @@ SetWorkingDir, %A_ScriptDir%
 PlayersList := "MisterOne MisterTwo MFStoner"
 ItemName := ""
 OfferPrice := ""
-SkipPlayers := "inward brains polo SocietyOfKobes"
+SkipPlayers := "inward brains SocietyOfKobes"
 
 !g::
 PlayersList := ""
