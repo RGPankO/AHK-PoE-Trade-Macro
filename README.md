@@ -22,3 +22,4 @@ $('.whisper-btn').parent().find('.character-name').each(function(index, ele){
 
 console.log(players_list);
 
+
